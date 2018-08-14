@@ -11,7 +11,8 @@ describe('FullStory', function() {
   var fullstory;
   var options = {
     org: '1JO',
-    debug: false
+    debug: false,
+    passEvents: false
   };
 
   beforeEach(function() {
@@ -141,6 +142,23 @@ describe('FullStory', function() {
           myInt_date: 3,    // the user's tag (and their mismatch error)
           myInt_bool: 4,
           mystr_real: 'plugh' });
+      });
+    });
+
+    describe('#track', function() {
+      beforeEach(function() {
+        analytics.stub(window.FS, 'event');
+      });
+
+      it('should not send events when passEvents option is false', function() {
+        analytics.track('foo', { some_field: 'field_value' });
+        analytics.didNotCall(window.FS.event);
+      });
+
+      it('should send track event name and properties when passEvents option is true', function() {
+        fullstory.options.passEvents = true;
+        analytics.track('foo', { some_field: 'field_value' });
+        analytics.called(window.FS.event, 'foo', { some_field: 'field_value' });
       });
     });
   });
