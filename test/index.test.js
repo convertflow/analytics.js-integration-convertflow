@@ -92,7 +92,7 @@ describe('FullStory', function() {
       });
 
       it('should camel case custom props', function() {
-        analytics.identify('id', { name: 'Abc123', email: 'example@pizza.com', 'first name': 'Steven', 'lastName': 'Brown' });
+        analytics.identify('id', { name: 'Abc123', email: 'example@pizza.com', 'first name': 'Steven', lastName: 'Brown' });
         analytics.called(window.FS.identify, 'id', { displayName: 'Abc123', email: 'example@pizza.com', firstName: 'Steven', lastName: 'Brown' });
       });
 
