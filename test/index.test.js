@@ -92,7 +92,7 @@ describe('FullStory', function() {
       });
 
       it('should camel case custom props', function() {
-        analytics.identify('id', { name: 'Abc123', email: 'example@pizza.com', 'first name': 'Steven', lastName: 'Brown' });
+        analytics.identify('id', { name: 'Abc123', email: 'example@pizza.com', 'First name': 'Steven', lastName: 'Brown' });
         analytics.called(window.FS.identify, 'id', { displayName: 'Abc123', email: 'example@pizza.com', firstName: 'Steven', lastName: 'Brown' });
       });
 
@@ -102,16 +102,32 @@ describe('FullStory', function() {
       });
 
       it('should respect existing type tags', function() {
-        // Type tags should pass through.
-        var payload = {
-          my_real: 17.0,
-          my_int_str: 'foo',
-          my_str_int: 4,
-          my_int_date: new Date(),
-          my_int_bool: true
-        };
-        analytics.identify('id3', payload);
-        analytics.called(window.FS.identify, 'id3', payload);
+        analytics.identify('id3', {
+          my_real: 17,
+          my_int_str: 17,
+          my_str_int: 'foo',
+          my_int_date: 3,
+          my_int_bool: 4,
+          mystr_real: 'plugh',
+          my_reals: [17],
+          my_int_strs: [17],
+          my_str_ints: ['foo'],
+          my_int_dates: [3],
+          my_int_bools: [4],
+          mystr_reals: ['plugh'] });
+        analytics.called(window.FS.identify, 'id3', {
+          my_real: 17,      // didn't become my_real_real (double tag)
+          myInt_str: 17,    // all other tests check type mismatch isn't
+          myStr_int: 'foo', // "fixed" to e.g. myInt_str_int, but keeps
+          myInt_date: 3,    // the user's tag (and their mismatch error)
+          myInt_bool: 4,
+          mystr_real: 'plugh',
+          my_reals: [17],
+          myInt_strs: [17],
+          myStr_ints: ['foo'],
+          myInt_dates: [3],
+          myInt_bools: [4],
+          mystr_reals: ['plugh'] });
       });
     });
 
