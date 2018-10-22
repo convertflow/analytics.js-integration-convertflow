@@ -79,7 +79,7 @@ describe('FullStory', function() {
 
       it('should only send strings as the id', function() {
         analytics.identify(1);
-        analytics.called(window.FS.identify, '1');
+        analytics.called(window.FS.identify, '1', {}, 'segment');
         analytics.didNotCall(window.FS.setUserVars);
         var traits = window.FS.identify.args[0][0];
         analytics.assert(traits && !traits.hasOwnProperty('segmentAnonymousId_str'),
@@ -88,17 +88,17 @@ describe('FullStory', function() {
 
       it('should send an id', function() {
         analytics.identify('id');
-        analytics.called(window.FS.identify, 'id');
+        analytics.called(window.FS.identify, 'id', {}, 'segment');
       });
 
       it('should camel case custom props', function() {
         analytics.identify('id', { name: 'Abc123', email: 'example@pizza.com', 'First name': 'Steven', lastName: 'Brown' });
-        analytics.called(window.FS.identify, 'id', { displayName: 'Abc123', email: 'example@pizza.com', firstName: 'Steven', lastName: 'Brown' });
+        analytics.called(window.FS.identify, 'id', { displayName: 'Abc123', email: 'example@pizza.com', firstName: 'Steven', lastName: 'Brown' }, 'segment');
       });
 
       it('should map name and email', function() {
         analytics.identify('id', { name: 'Test', email: 'test@test.com' });
-        analytics.called(window.FS.identify, 'id', { displayName: 'Test', email: 'test@test.com' });
+        analytics.called(window.FS.identify, 'id', { displayName: 'Test', email: 'test@test.com' }, 'segment');
       });
 
       it('should respect existing type tags', function() {
@@ -127,7 +127,7 @@ describe('FullStory', function() {
           myStr_ints: ['foo'],
           myInt_dates: [3],
           myInt_bools: [4],
-          mystr_reals: ['plugh'] });
+          mystr_reals: ['plugh'] }, 'segment');
       });
     });
 
@@ -144,7 +144,7 @@ describe('FullStory', function() {
       it('should send track event name and properties when passEvents option is true', function() {
         fullstory.options.passEvents = true;
         analytics.track('foo', { some_field: 'field_value' });
-        analytics.called(window.FS.event, 'foo', { some_field: 'field_value' });
+        analytics.called(window.FS.event, 'foo', { some_field: 'field_value' }, 'segment');
       });
     });
   });
