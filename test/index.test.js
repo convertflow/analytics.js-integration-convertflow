@@ -11,8 +11,7 @@ describe('FullStory', function() {
   var fullstory;
   var options = {
     org: '1JO',
-    debug: false,
-    passEvents: false
+    debug: false
   };
 
   beforeEach(function() {
@@ -136,13 +135,7 @@ describe('FullStory', function() {
         analytics.stub(window.FS, 'event');
       });
 
-      it('should not send events when passEvents option is false', function() {
-        analytics.track('foo', { some_field: 'field_value' });
-        analytics.didNotCall(window.FS.event);
-      });
-
-      it('should send track event name and properties when passEvents option is true', function() {
-        fullstory.options.passEvents = true;
+      it('should send track event name and properties', function() {
         analytics.track('foo', { some_field: 'field_value' });
         analytics.called(window.FS.event, 'foo', { some_field: 'field_value' }, 'segment');
       });
