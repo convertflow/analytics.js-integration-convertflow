@@ -52,6 +52,16 @@ describe('ConvertFlow', function() {
       });
     });
   });
+
+  // describe('after loading', function() {
+  //   describe('#identify', function() {
+  //     it('should send an email', function() {
+  //       analytics.identify({email: 'blackwidow@shield.gov'});
+  //       analytics.called(convertflow.identify, {email: 'blackwidow@shield.gov'});
+  //     });
+  //   });
+  // });
+
 });
 
 /**
