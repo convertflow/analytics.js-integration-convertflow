@@ -36,6 +36,7 @@ describe('ConvertFlow', function() {
     analytics.compare(ConvertFlow, integration('ConvertFlow')
       .global('convertflow')
       .assumesPageview()
+      .readyOnLoad()
       .option('websiteId', ''));
   });
 
@@ -53,14 +54,32 @@ describe('ConvertFlow', function() {
     });
   });
 
-  // describe('after loading', function() {
-  //   describe('#identify', function() {
-  //     it('should send an email', function() {
-  //       analytics.identify({email: 'blackwidow@shield.gov'});
-  //       analytics.called(convertflow.identify, {email: 'blackwidow@shield.gov'});
-  //     });
-  //   });
-  // });
+  describe('loading', function() {
+    it('should load', function(done) {
+      analytics.load(convertflow, done);
+    });
+  });
+
+  describe('after loading', function() {
+
+    beforeEach(function(done) {
+      analytics.once('ready', done);
+      analytics.initialize();
+      analytics.page();
+    });
+
+    describe('#identify', function() {
+
+      beforeEach(function() {
+        analytics.stub(window.convertflow, 'identify');
+      });
+
+      it('should send an email', function() {
+        analytics.identify({ email: 'blackwidow@shield.gov' });
+        analytics.called(window.convertflow.identify, {email: 'blackwidow@shield.gov', override: true});
+      });
+    });
+  });
 
 });
 
