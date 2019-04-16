@@ -36,7 +36,6 @@ describe('ConvertFlow', function() {
     analytics.compare(ConvertFlow, integration('ConvertFlow')
       .global('convertflow')
       .assumesPageview()
-      .readyOnLoad()
       .option('websiteId', ''));
   });
 
@@ -74,9 +73,12 @@ describe('ConvertFlow', function() {
         analytics.stub(window.convertflow, 'identify');
       });
 
-      it('should send an email', function() {
-        analytics.identify({ email: 'blackwidow@shield.gov' });
-        analytics.called(window.convertflow.identify, {email: 'blackwidow@shield.gov', override: true});
+      it('should send an email', function(done) {
+        setTimeout(function() {
+          analytics.identify({ email: 'blackwidow@shield.gov' });
+          analytics.called(window.convertflow.identify, {email: 'blackwidow@shield.gov', override: true});
+          done();
+        }, 1000);
       });
     });
   });
