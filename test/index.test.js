@@ -67,6 +67,18 @@ describe('ConvertFlow', function() {
       analytics.page();
     });
 
+    describe('#page', function() {
+
+      beforeEach(function() {
+        analytics.stub(window.convertflow, 'start');
+      });
+
+      it('should call convertflow start', function() {
+        analytics.page();
+        analytics.called(window.convertflow.start);
+      });
+    });
+
     describe('#identify', function() {
 
       beforeEach(function() {
