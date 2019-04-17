@@ -35,6 +35,7 @@ describe('ConvertFlow', function() {
   it('should have the right settings', function() {
     analytics.compare(ConvertFlow, integration('ConvertFlow')
       .global('convertflow')
+      .assumesPageview()
       .option('websiteId', ''));
   });
 
